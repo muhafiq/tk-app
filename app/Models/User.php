@@ -20,7 +20,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'phone_number',
         'email',
+        'role',
         'password',
     ];
 
@@ -56,5 +58,20 @@ class User extends Authenticatable
             ->explode(' ')
             ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
+    }
+
+    public function parent()
+    {
+        return $this->hasOne(ParentModel::class); // Rename model to ParentModel to avoid PHP reserved word
+    }
+
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class);
+    }
+
+    public function admin()
+    {
+        return $this->hasOne(Admin::class);
     }
 }
