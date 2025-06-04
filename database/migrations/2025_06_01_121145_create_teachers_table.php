@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Teachers', function (Blueprint $table) {
+        Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->int("User_ID");
-            $table->int("NIP");
-            $table->string("Gender");
-            $table->string("Religion");
-            $table->string("Address"); 
+            $table->foreignId("user_id")->constrained("users")->onDelete("cascade");
+            $table->string("name");
+            $table->integer("nip");
+            $table->enum("gender", ["L", "P"]);
+            $table->enum("religion", ["Islam", "Kristen", "Katolik", "Hindu/Budha", "Konghucu"]);
+            $table->string("address");
+            $table->date("joined_date");
             $table->timestamps();
         });
     }

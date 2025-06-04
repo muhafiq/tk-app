@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
-            $table->integer('month'); // 1 - 12
-            $table->integer('year');
-            $table->decimal('amount', 12, 2);
-            $table->date('payment_date');
+            $table->string('event_name');
+            $table->text('description');
+            $table->date('date');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->enum("type", ["class", "school"]);
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('Events');
     }
 };

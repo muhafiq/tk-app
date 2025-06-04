@@ -9,15 +9,15 @@ class Event extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['event_name', 'description', 'date', 'created_by'];
+    protected $fillable = ['event_name', 'description', 'date', 'created_by', 'type'];
 
-    public function students()
+    public function creator()
     {
-        return $this->belongsToMany(Student::class, 'student_event')->withPivot('teacher_notes')->withTimestamps();
+        return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function teacher()
+    public function images()
     {
-        return $this->belongsTo(Teacher::class, 'created_by');
+        return $this->hasMany(EventImage::class);
     }
 }

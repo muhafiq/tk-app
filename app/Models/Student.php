@@ -10,9 +10,19 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'gender', 'religion', 'address', 'kartu_keluarga',
-        'akta_kelahiran', 'spesific_desease', 'birth_place',
-        'parent_id', 'class_id',
+        'name',
+        'gender',
+        'religion',
+        'address',
+        'kartu_keluarga',
+        'akta_kelahiran',
+        'spesific_desease',
+        'birth_date',
+        'birth_place',
+        'nation',
+        'parent_id',
+        'class_id',
+        'disabled'
     ];
 
     public function parent()
@@ -20,8 +30,13 @@ class Student extends Model
         return $this->belongsTo(ParentModel::class);
     }
 
-    public function events()
+    public function classroom()
     {
-        return $this->belongsToMany(Event::class, 'student_event')->withPivot('teacher_notes')->withTimestamps();
+        return $this->belongsTo(Classroom::class);
+    }
+
+    public function finances()
+    {
+        return $this->hasMany(Finance::class);
     }
 }

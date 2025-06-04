@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Admins', function (Blueprint $table) {
+        Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
-            $table->int("User_ID");
-            $table->int("Jabatan");
-            $table->string("Gender");
-            $table->string("Religion");
-            $table->string("Address"); 
+            $table->integer("capacity");
+            $table->string("location");
+            $table->string("type"); // kelas, lab, dan lainnya
+            $table->foreignId("wali_kelas")->nullable()->constrained("teachers")->onDelete("cascade");
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Admins');
+        Schema::dropIfExists('table_classes');
     }
 };

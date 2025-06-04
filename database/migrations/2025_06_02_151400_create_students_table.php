@@ -14,15 +14,18 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("gender");
-            $table->string("religion");
+            $table->enum("gender", ["L", "P"]);
+            $table->enum("religion", ["Islam", "Kristen", "Katolik", "Hindu/Budha", "Konghucu"]);
             $table->string("address");
             $table->string("kartu_keluarga");
             $table->string("akta_kelahiran");
             $table->string("spesific_desease")->nullable();
+            $table->date("birth_date");
             $table->string("birth_place");
+            $table->string("nation");
             $table->foreignId("parent_id")->constrained('parents')->onDelete('cascade');
-            $table->unsignedBigInteger("class_id")->nullable();
+            $table->foreignId("class_id")->constrained("classrooms")->onDelete("cascade");
+            $table->boolean("disabled")->default(false);
             $table->timestamps();
         });
     }
