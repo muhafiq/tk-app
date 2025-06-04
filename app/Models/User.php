@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,7 +19,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        'phone_number',
+        'role',
         'password',
     ];
 
@@ -42,7 +42,6 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
@@ -54,7 +53,42 @@ class User extends Authenticatable
     {
         return Str::of($this->name)
             ->explode(' ')
-            ->map(fn (string $name) => Str::of($name)->substr(0, 1))
+            ->map(fn(string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
+    }
+
+    /**
+     * Get user profile, except admin will return null
+     */
+    public function getProfile()
+    {
+        return match ($this->role) {
+            'parent' => $this->parent,
+            'teacher' => $this->teacher,
+            default => null,
+        };
+    }
+
+    /**
+     * Validation only teacher and admin that can create an event
+     */
+    public function canCreateEvent(): bool
+    {
+        return in_array($this->role, ['admin', 'teacher']);
+    }
+
+    public function parent()
+    {
+        return $this->hasOne(ParentModel::class); // Rename model to ParentModel to avoid PHP reserved word
+    }
+
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class);
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class, 'created_by');
     }
 }
