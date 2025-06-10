@@ -20,4 +20,9 @@ class Event extends Model
     {
         return $this->hasMany(EventImage::class);
     }
+
+    public function subactivities()
+    {
+        return $this->hasMany(EventSubactivity::class);
+    }
 }

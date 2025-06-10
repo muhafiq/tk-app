@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('event_images', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('event_id');
-            $table->string('image_url');
-            $table->timestamps();
-
+        Schema::table('event_images', function (Blueprint $table) {
+            $table->unsignedBigInteger('event_subactivity_id')->nullable()->after('event_id');
         });
     }
 
@@ -25,6 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('event_images');
+        //
     }
 };

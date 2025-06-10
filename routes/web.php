@@ -29,4 +29,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 });
 
+Route::get('/admin2', function () {
+    return view('dashboard.admin2');
+})->name('admin2');
+
+Route::get('/admin3', function () {
+    return view('dashboard.admin3');
+})->name('admin3');
+
 require __DIR__ . '/auth.php';
